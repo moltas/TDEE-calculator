@@ -1,25 +1,49 @@
 import React from 'react';
-import { StyleSheet, Text, View, Button, TextInput } from 'react-native';
+import { StyleSheet, Text, View, Button, TextInput, ActivityIndicator } from 'react-native';
 
 import Radiobutton from './components/Radiobutton.js';
-
+import TextField from './components/TextField.js';
+import Spinner from './components/Spinner.js';
 
 export default class App extends React.Component {
 
 	constructor(){
 		super()
 		this.state = {
-			gender: 'boy',
+			gender: 'male',
 			age: '',
+			height: '',
+			showSpinner: false,
 		}
 	}
 
 	changeGender(gender) {
-		console.log('pressing!..')
-		this.setState((prevState) => {
-			return {...prevState, gender}
+		this.setState(() => {
+			return {gender}
 		})
-		console.log(this.state)
+	}
+
+	addHeight(height) {
+		console.log(height)
+		this.setState(() => {
+			return {height}
+		})
+	}
+
+	calculateResults() {
+		// Men: 10 x weight (kg) + 6.25 x height (cm) - 5 x age (y) + 5 
+		// Women: 10 x weight (kg) + 6.25 x height (cm) - 5 x age (y) - 161
+
+		this.setState(() => {
+			return {showSpinner: true}
+		})
+
+
+		if (this.state.gender === 'Female') {
+			console.log('showing female results')
+		}
+
+		console.log('showing male results')
 	}
 
 	render() {
@@ -32,53 +56,53 @@ export default class App extends React.Component {
 					<Text style={styles.rowTitle}>Gender</Text>
 					<Radiobutton
 						style={styles.checkbox}
-						onPress={() => this.changeGender}
-						toggle={() => this.changeGender}
-						selected={this.state.gender === 'boy'}
-						label='Boy'
+						toggle={() => this.changeGender('male')}
+						selected={this.state.gender === 'male'}
+						label='Male'
 					/>
 					<Radiobutton
 						style={styles.checkbox}
-						toggle={() => this.changeGender}
-						onPress={() => this.changeGender}
-						selected={this.state.gender === 'girl'}
-						label='Girl'
+						toggle={() => this.changeGender('female')}
+						selected={this.state.gender === 'female'}
+						label='Female'
 					/>
 				</View>
 				<View style={styles.row}>
 					<Text style={styles.rowTitle}>Age</Text>
-					<TextInput
-						style={styles.input}
-						value={this.state.age}
-						onChangeText={text => this.setState((prevState) => {
-							return { ...prevState, age: text}
-						})}
+					<TextField
+						placeholder="years"
+						handleChange={() => this.addHeight}
 					/>
 				</View>
 				<View style={styles.row}>
 					<Text style={styles.rowTitle}>Height</Text>
-					<TextInput
-						style={styles.input}
-						value={this.state.age}
-						onChangeText={text => this.setState((prevState) => {
-							return { ...prevState, age: text}
-						})}
+					<TextField
+						placeholder="Enter your height"
+						handleChange={() => this.addHeight}
 					/>
 				</View>
-				<Text>swdawsasdwaswadwa</Text>
-				<Button style={styles.button} title="click" onPress={this.handlePress}></Button>
+				<Text>ddawdaaw</Text>
+				<View
+					style={styles.submitButton}
+					onPress={() => this.calculateResults()}
+				>
+					<Text style={styles.buttonFont}>Calculate caloric needs</Text>
+				</View>
+				<Spinner style={styles.spinner} isLoading={this.state.showSpinner} />
 			</View>
 		);
 	}
 }
 
+const blue = '#126bbf'
+
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		backgroundColor: '#126bbf',
+		backgroundColor: blue,
 		alignItems: 'center',
 		justifyContent: 'center',
-		maxWidth: '100%'
+		padding: 10
 	},
 	pageTitle: {
 		fontSize: 35,
@@ -97,8 +121,18 @@ const styles = StyleSheet.create({
 		fontSize: 20,
 		padding: 10
 	},
-	button: {
-		backgroundColor: 'yellow',
+	submitButton: {
+		display: 'flex',
+		backgroundColor: blue,
+		borderWidth: 2,
+		borderColor: 'white',
+		padding: 10,
+	},
+	buttonFont: {
+		alignSelf: 'center',
+		fontSize: 16,
+		fontWeight: '600',
+		color: 'white',
 	},
 	input: {
 		width: '80%',
@@ -110,102 +144,3 @@ const styles = StyleSheet.create({
 		color: 'white',
 	},
 });
-
-
-// "alignContent",
-// "alignItems",
-// "alignSelf",
-// "aspectRatio",
-// "backfaceVisibility",
-// "backgroundColor",
-// "borderBottomColor",
-// "borderBottomLeftRadius",
-// "borderBottomRightRadius",
-// "borderBottomWidth",
-// "borderColor",
-// "borderLeftColor",
-// "borderLeftWidth",
-// "borderRadius",
-// "borderRightColor",
-// "borderRightWidth",
-// "borderStyle",
-// "borderTopColor",
-// "borderTopLeftRadius",
-// "borderTopRightRadius",
-// "borderTopWidth",
-// "borderWidth",
-// "bottom",
-// "color",
-// "decomposedMatrix",
-// "direction",
-// "display",
-// "elevation",
-
-// "flex",
-// "flexBasis",
-// "flexDirection",
-// "flexGrow",
-// "flexShrink",
-// "flexWrap",
-
-
-// "fontFamily",
-// "fontSize",
-// "fontStyle",
-// "fontVariant",
-// "fontWeight",
-// "height",
-// "includeFontPadding",
-// "justifyContent",
-// "left",
-// "letterSpacing",
-// "lineHeight",
-// "margin",
-// "marginBottom",
-// "marginHorizontal",
-// "marginLeft",
-// "marginRight",
-// "marginTop",
-// "marginVertical",
-// "maxHeight",
-// "maxWidth",
-// "minHeight",
-// "minWidth",
-// "opacity",
-// "overflow",
-// "overlayColor",
-// "padding",
-// "paddingBottom",
-// "paddingHorizontal",
-// "paddingLeft",
-// "paddingRight",
-// "paddingTop",
-// "paddingVertical",
-// "position",
-// "resizeMode",
-// "right",
-// "rotation",
-// "scaleX",
-// "scaleY",
-// "shadowColor",
-// "shadowOffset",
-// "shadowOpacity",
-// "shadowRadius",
-// "textAlign",
-// "textAlignVertical",
-// "textDecorationColor",
-// "textDecorationLine",
-// "textDecorationStyle",
-// "textShadowColor",
-// "textShadowOffset",
-// "textShadowRadius",
-// "tintColor",
-// "top",
-// "transform",
-// "transformMatrix",
-// "translateX",
-// "translateY",
-// "width",
-// "writingDirection",
-// "zIndex"
-
