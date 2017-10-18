@@ -1,5 +1,15 @@
 import React from 'react';
-import { StyleSheet, Text, View, Button, TextInput, ActivityIndicator } from 'react-native';
+import {
+	StyleSheet,
+	Text,
+	View,
+	Button,
+	TextInput,
+	ActivityIndicator,
+	TouchableNativeFeedback
+} from 'react-native';
+
+import DatePicker from 'react-native-datepicker'
 
 import Radiobutton from './components/Radiobutton.js';
 import TextField from './components/TextField.js';
@@ -12,6 +22,7 @@ export default class App extends React.Component {
 		this.state = {
 			gender: 'male',
 			age: '',
+			weight: '',
 			height: '',
 			showSpinner: false,
 		}
@@ -24,6 +35,13 @@ export default class App extends React.Component {
 	}
 
 	addHeight(height) {
+		console.log(height)
+		this.setState(() => {
+			return {height}
+		})
+	}
+
+	addWeight(height) {
 		console.log(height)
 		this.setState(() => {
 			return {height}
@@ -69,24 +87,59 @@ export default class App extends React.Component {
 				</View>
 				<View style={styles.row}>
 					<Text style={styles.rowTitle}>Age</Text>
-					<TextField
-						placeholder="years"
-						handleChange={() => this.addHeight}
+					<DatePicker
+						style={{
+							width: 150,
+						}}
+						date={this.state.age}
+						mode="date"
+						placeholder="Select age"
+						androidMode="spinner"
+						format="YYYY-MM-DD"
+						iconSource={2}
+						minDate="1900-01-01"
+						maxDate="2015-12-31"
+						confirmBtnText="Confirm"
+						cancelBtnText="Cancel"
+						customStyles={{
+							dateInput: {
+								width: '80%',
+								paddingLeft: 10,
+								paddingRight: 10,
+								borderWidth: 1,
+								borderColor: 'white',
+							},
+							dateText: {
+								color: 'white',
+								fontSize: baseFontSize,
+							},
+							placeholderText: {
+								color: 'white',
+								fontSize: baseFontSize,
+							}
+						}}
+						onDateChange={(age) => {this.setState({age: age})}}
 					/>
+				</View>
+				<View style={styles.row}>
+					<Text style={styles.rowTitle}>Weight</Text>
+					<TextField
+							placeholder="Enter weight"
+							handleChange={() => this.addHeight}
+						/>
 				</View>
 				<View style={styles.row}>
 					<Text style={styles.rowTitle}>Height</Text>
 					<TextField
-						placeholder="Enter your height"
+						placeholder="Enter height"
 						handleChange={() => this.addHeight}
 					/>
 				</View>
-				<Text>ddawdaaw</Text>
-				<View
-					style={styles.submitButton}
-					onPress={() => this.calculateResults()}
-				>
-					<Text style={styles.buttonFont}>Calculate caloric needs</Text>
+				<Text>wadaw: {console.log(this.state)}</Text>
+				<View style={styles.row}>
+					<TouchableNativeFeedback onPress={() => this.calculateResults()}>
+						<Text style={styles.buttonFont}>Calculate caloric needs</Text>
+					</TouchableNativeFeedback>
 				</View>
 				<Spinner style={styles.spinner} isLoading={this.state.showSpinner} />
 			</View>
@@ -95,6 +148,7 @@ export default class App extends React.Component {
 }
 
 const blue = '#126bbf'
+const baseFontSize = 20
 
 const styles = StyleSheet.create({
 	container: {
@@ -119,7 +173,8 @@ const styles = StyleSheet.create({
 	rowTitle: {
 		color: 'white',
 		fontSize: 20,
-		padding: 10
+		padding: 10,
+		width: 150
 	},
 	submitButton: {
 		display: 'flex',
@@ -127,20 +182,12 @@ const styles = StyleSheet.create({
 		borderWidth: 2,
 		borderColor: 'white',
 		padding: 10,
+		marginTop: 20
 	},
 	buttonFont: {
 		alignSelf: 'center',
-		fontSize: 16,
+		fontSize: baseFontSize,
 		fontWeight: '600',
-		color: 'white',
-	},
-	input: {
-		width: '80%',
-		paddingLeft: 10,
-		paddingRight: 10,
-		borderStyle: 'solid',
-		borderWidth: 1,
-		borderColor: 'white',
 		color: 'white',
 	},
 });

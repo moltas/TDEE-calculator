@@ -8,6 +8,9 @@ const TextField = (props) => (
 			placeholder={props.placeholder}
 			keyboardType='numeric'
 			onChangeText={(text) => props.handleChange(text)}
+			underlineColorAndroid='transparent'
+			placeholderTextColor='white'
+			onEndEditing={(evt) => console.log(evt) }
 		/>
 	</View>
 );
@@ -22,7 +25,7 @@ const styles = StyleSheet.create({
 		borderWidth: 1,
 		borderColor: 'white',
 		padding: 10,
-		fontSize: 16,
+		fontSize: 20,
 	}
 });
 
