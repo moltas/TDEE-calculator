@@ -10,25 +10,22 @@ import {
 } from 'react-native';
 
 import { Provider } from 'react-redux';
-import { createStore, applyMiddleware } from 'redux';
+import { createStore, applyMiddleware, compose } from 'redux';
+import reduxImmutableStateInvariant from 'redux-immutable-state-invariant'
 
 import reducer from './reducer.js';
 import { initialState } from './reducer.js';
+import FormSection from './containers/FormSection.js';
 
-const myStore = (initialState) => {
-	const middlewares = [];
 
-	const store = createStore(reducer, initialState, compose(applyMiddleware(...middlewares)));
-	
-	return store
-};
+const store = createStore(reducer, initialState);
 
 export default class App extends React.Component {
 	render() {
 		return (
-			<Provider store={{store}}>
+			<Provider store={store}>
 				<View>
-					<Text>Hello!</Text>
+					<FormSection />
 				</View>
 			</Provider>
 		)

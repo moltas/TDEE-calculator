@@ -9,11 +9,21 @@ import {
 	TouchableNativeFeedback
 } from 'react-native';
 
-import DatePicker from 'react-native-datepicker'
+import { connect } from 'react-redux';
 
-import Radiobutton from './components/Radiobutton.js';
-import TextField from './components/TextField.js';
-import Spinner from './components/Spinner.js';
+import DatePicker from 'react-native-datepicker';
+
+import {
+	changeGenderAction,
+	changeAgeAction,
+	changeWeightAction,
+	changeHeightAction,
+	calculateResultsAction,
+} from '../actions.js';
+
+import Radiobutton from '../components/Radiobutton.js';
+import TextField from '../components/TextField.js';
+import Spinner from '../components/Spinner.js';
 
 
 const FormSection = (props) => (
@@ -42,7 +52,9 @@ const FormSection = (props) => (
 				style={{
 					width: 150,
 				}}
-				date={this.state.age}
+				date = {
+					props.age
+				}
 				mode="date"
 				placeholder="Select age"
 				androidMode="spinner"
@@ -86,7 +98,7 @@ const FormSection = (props) => (
 				handleChange={() => this.addHeight}
 			/>
 		</View>
-		<Text>dawdaw: {console.log(props)}</Text>
+		<Text>awawd: {console.log(props)}</Text>
 		<View style={styles.row}>
 			<TouchableNativeFeedback onPress={() => props.calculateResults()}>
 				<View style={styles.submitButton}>
@@ -97,8 +109,6 @@ const FormSection = (props) => (
 		<Spinner style={styles.spinner} isLoading={props.showSpinner} />
 	</View>
 )
-
-export default FormSection;
 
 const blue = '#126bbf'
 const baseFontSize = 20
@@ -144,3 +154,28 @@ const styles = StyleSheet.create({
 		color: 'white',
 	},
 });
+
+const mapStateToProps = (state) => {
+	return {
+		gender: state.form.gender,
+		age: state.form.age,
+		weight: state.form.weight,
+		height: state.form.height,
+		showSpinner: state.form.showSpinner,
+	}
+};
+
+const mapDispatchToProps = () => ({
+	changeGender: () => dispatch(changeGenderAction()),
+	changeAge: () => dispatch(changeAgeAction()),
+	changeWeight: () => dispatch(changeWeightAction()),
+	changeHeight: () => dispatch(changeHeightAction()),
+	calculateResults: () => dispatch(calculateResultsAction()),
+});
+
+export default connect(
+	mapStateToProps,
+	mapDispatchToProps,
+)(FormSection)
+
+

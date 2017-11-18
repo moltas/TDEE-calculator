@@ -25,6 +25,7 @@
     "react-native": "^0.48.4",
     "react-native-datepicker": "^1.6.0",
     "react-redux": "^5.0.6",
-    "redux": "^3.7.2"
+    "redux": "^3.7.2",
+    "redux-immutable-state-invariant": "^2.1.0"
   }
 }
