@@ -24,10 +24,16 @@ export default class App extends React.Component {
 	render() {
 		return (
 			<Provider store={store}>
-				<View>
+				<View style={styles.container}>
 					<FormSection />
 				</View>
 			</Provider>
 		)
 	}
 }
+
+const styles = StyleSheet.create({
+	container: {
+		flex: 1,
+	},
+});

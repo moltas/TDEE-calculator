@@ -9,7 +9,7 @@ import {
 	TouchableNativeFeedback
 } from 'react-native';
 
-import { connect } from 'react-redux';
+import { connect, dispatch } from 'react-redux';
 
 import DatePicker from 'react-native-datepicker';
 
@@ -19,18 +19,33 @@ import {
 	changeWeightAction,
 	changeHeightAction,
 	calculateResultsAction,
+	changeMeasurementTypeAction,
 } from '../actions.js';
 
 import Radiobutton from '../components/Radiobutton.js';
 import TextField from '../components/TextField.js';
 import Spinner from '../components/Spinner.js';
+import TabGroup from '../components/TabGroup.js';
 
+const measurementTypes = [
+	"metric",
+	"imperial"
+]
 
 const FormSection = (props) => (
 	<View style={styles.container}>
 		<View style={styles.row}>
+			<TabGroup
+				tabItems={measurementTypes}
+				toggle={(tab) => props.changeMeasurementType(tab)}
+				selected={props.measurementType}
+			/>
+		</View>
+
+		<View style={styles.row}>
 			<Text style={styles.pageTitle}>TDEE Calculator</Text>
 		</View>
+
 		<View style={styles.row}>
 			<Text style={styles.rowTitle}>Gender</Text>
 			<Radiobutton
@@ -46,6 +61,7 @@ const FormSection = (props) => (
 				label='Female'
 			/>
 		</View>
+
 		<View style={styles.row}>
 			<Text style={styles.rowTitle}>Age</Text>
 			<DatePicker
@@ -81,24 +97,30 @@ const FormSection = (props) => (
 						fontSize: baseFontSize,
 					}
 				}}
-				onDateChange={(age) => {this.setState({age: age})}}
+				onDateChange={(age) => props.changeAge(age)}
 			/>
 		</View>
+
 		<View style={styles.row}>
 			<Text style={styles.rowTitle}>Weight</Text>
 			<TextField
 					placeholder="Enter weight"
-					handleChange={() => this.addHeight}
+					unit={props.measurementType}
+					handleChange={(weight) => props.changeWeight(weight)}
+					text={props.weight}
 				/>
 		</View>
+
 		<View style={styles.row}>
 			<Text style={styles.rowTitle}>Height</Text>
 			<TextField
 				placeholder="Enter height"
-				handleChange={() => this.addHeight}
+				unit={props.measurementType}
+				handleChange={(height) => props.changeHeight(height)}
+				text={props.height}
 			/>
 		</View>
-		<Text>awawd: {console.log(props)}</Text>
+		<Text>wddwaw</Text>
 		<View style={styles.row}>
 			<TouchableNativeFeedback onPress={() => props.calculateResults()}>
 				<View style={styles.submitButton}>
@@ -157,20 +179,22 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state) => {
 	return {
-		gender: state.form.gender,
-		age: state.form.age,
-		weight: state.form.weight,
-		height: state.form.height,
-		showSpinner: state.form.showSpinner,
+		gender: state.gender,
+		age: state.age,
+		weight: state.weight,
+		height: state.height,
+		showSpinner: state.showSpinner,
+		measurementType: state.measurementType,
 	}
 };
 
-const mapDispatchToProps = () => ({
-	changeGender: () => dispatch(changeGenderAction()),
-	changeAge: () => dispatch(changeAgeAction()),
-	changeWeight: () => dispatch(changeWeightAction()),
-	changeHeight: () => dispatch(changeHeightAction()),
+const mapDispatchToProps = (dispatch) => ({
+	changeGender: (gender) => dispatch(changeGenderAction(gender)),
+	changeAge: (age) => dispatch(changeAgeAction(age)),
+	changeWeight: (weigth) => dispatch(changeWeightAction(weigth)),
+	changeHeight: (height) => dispatch(changeHeightAction(height)),
 	calculateResults: () => dispatch(calculateResultsAction()),
+	changeMeasurementType: (type) => dispatch(changeMeasurementTypeAction(type)),
 });
 
 export default connect(

@@ -1,16 +1,21 @@
 import React from 'react';
 import { View, Text, TextInput, StyleSheet } from 'react-native';
 
-const TextField = (props) => (
+const TextField = ({ placeholder, handleChange, text }) => (
 	<View style={styles.container}>
 		<TextInput
 			style={styles.input}
-			placeholder={props.placeholder}
+			placeholder={placeholder}
 			keyboardType='numeric'
-			onChangeText={(text) => props.handleChange(text)}
+			onChangeText={(text) => {
+				if (text > 0){
+					handleChange(text + ' cm')
+				} else {
+				}
+			}}
 			underlineColorAndroid='transparent'
 			placeholderTextColor='white'
-			onEndEditing={(evt) => console.log(evt) }
+			value={text}
 		/>
 	</View>
 );

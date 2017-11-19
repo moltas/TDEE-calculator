@@ -1,22 +1,20 @@
 
 
 export const initialState = {
-	form: {
-		gender: 'male',
-		age: '19',
-		weight: '100',
-		height: '100',
-		showSpinner: false,
-		formSubmitted: false,
-	}
-
+	gender: 'male',
+	age: '19',
+	weight: '100',
+	height: '100',
+	showSpinner: false,
+	formSubmitted: false,
+	measurementType: 'metric',
 };
 
 const reducer = (state = initialState.form, action) => {
 	switch (action.type) {
 		case 'CHANGE_GENDER': {
 			return { ...state,
-				gender: !state.gender
+				gender: action.gender
 			}
 		}
 		case 'CHANGE_AGE': {
@@ -32,6 +30,11 @@ const reducer = (state = initialState.form, action) => {
 		case 'CHANGE_HEIGHT': {
 			return { ...state,
 				height: action.height
+			}
+		}
+		case 'CHANGE_MEASUREMENT_TYPE': {
+			return { ...state,
+				measurementType: action.measurementType
 			}
 		}
 		case 'CALCULATE_RESULTS': {

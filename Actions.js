@@ -1,23 +1,30 @@
 
 
-export const changeGenderAction = () => ({
+export const changeGenderAction = (gender) => ({
 	type: 'CHANGE_GENDER',
+	gender,
 })
 
-export const changeAgeAction = () => ({
+export const changeAgeAction = (age) => ({
 	type: 'CHANGE_AGE',
+	age,
 })
 
 export const changeHeightAction = (height) => ({
 	type: 'CHANGE_HEIGHT',
-	height
+	height,
 })
 
 export const changeWeightAction = (weight) => ({
 	type: 'CHANGE_WEIGHT',
-	weight
+	weight,
 })
 
-export const calculateResults = () => ({
+export const changeMeasurementTypeAction = (measurementType) => ({
+	type: 'CHANGE_MEASUREMENT_TYPE',
+	measurementType,
+})
+
+export const calculateResultsAction = () => ({
 	type: 'CALCULATE_RESULTS'
 })
