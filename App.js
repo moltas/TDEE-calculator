@@ -10,14 +10,20 @@ import {
 } from 'react-native';
 
 import { Provider } from 'react-redux';
-import { createStore, applyMiddleware, compose } from 'redux';
-import reduxImmutableStateInvariant from 'redux-immutable-state-invariant'
+import { createStore, applyMiddleware, compose, combineReducers } from 'redux';
+import reduxImmutableStateInvariant from 'redux-immutable-state-invariant';
+import { reducer as formReducer } from 'redux-form';
 
-import reducer from './reducer.js';
+import mainReducer from './reducer.js';
 import { initialState } from './reducer.js';
 import FormSection from './containers/FormSection.js';
 
+const reducers = {
+	main: mainReducer,
+	form: formReducer,
+}
 
+const reducer = combineReducers(reducers)
 const store = createStore(reducer, initialState);
 
 export default class App extends React.Component {

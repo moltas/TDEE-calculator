@@ -2,7 +2,6 @@
 
 
 export const convertWeightToImperial = (weight) => {
-	tempWeight = ParseInt(weight)
 	return (weight * 2) + ' lbs';
 };
 

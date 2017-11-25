@@ -6,10 +6,12 @@ import {
 	Button,
 	TextInput,
 	ActivityIndicator,
-	TouchableNativeFeedback
+	TouchableNativeFeedback,
+	TouchableOpacity
 } from 'react-native';
 
 import { connect, dispatch } from 'react-redux';
+import { reduxForm, Field } from 'redux-form';
 
 import DatePicker from 'react-native-datepicker';
 
@@ -32,105 +34,128 @@ const measurementTypes = [
 	"imperial"
 ]
 
-const FormSection = (props) => (
-	<View style={styles.container}>
-		<View style={styles.row}>
-			<TabGroup
-				tabItems={measurementTypes}
-				toggle={(tab) => props.changeMeasurementType(tab)}
-				selected={props.measurementType}
-			/>
-		</View>
+const submit = (values) => {
+	console.log('submitting form ', values)
+}
 
-		<View style={styles.row}>
-			<Text style={styles.pageTitle}>TDEE Calculator</Text>
-		</View>
+const FormSection = (props) => {
+	const { handleSubmit } = props
+	
+	return (
+		<View style={styles.container}>
+			<View style={styles.row}>
+				<TabGroup
+					tabItems={measurementTypes}
+					toggle={(tab) => props.changeMeasurementType(tab)}
+					selected={props.measurementType}
+				/>
+			</View>
 
-		<View style={styles.row}>
-			<Text style={styles.rowTitle}>Gender</Text>
-			<Radiobutton
-				style={styles.checkbox}
-				toggle={() => props.changeGender('male')}
-				selected={props.gender === 'male'}
-				label='Male'
-			/>
-			<Radiobutton
-				style={styles.checkbox}
-				toggle={() => props.changeGender('female')}
-				selected={props.gender === 'female'}
-				label='Female'
-			/>
-		</View>
+			<View style={styles.row}>
+				<Text style={styles.pageTitle}>TDEE Calculator</Text>
+			</View>
 
-		<View style={styles.row}>
-			<Text style={styles.rowTitle}>Age</Text>
-			<DatePicker
-				style={{
-					width: 150,
-				}}
-				date = {
-					props.age
-				}
-				mode="date"
-				placeholder="Select age"
-				androidMode="spinner"
-				format="YYYY-MM-DD"
-				iconSource={2}
-				minDate="1900-01-01"
-				maxDate="2015-12-31"
-				confirmBtnText="Confirm"
-				cancelBtnText="Cancel"
-				customStyles={{
-					dateInput: {
-						width: '80%',
-						paddingLeft: 10,
-						paddingRight: 10,
-						borderWidth: 1,
-						borderColor: 'white',
-					},
-					dateText: {
-						color: 'white',
-						fontSize: baseFontSize,
-					},
-					placeholderText: {
-						color: 'white',
-						fontSize: baseFontSize,
+			<View style={styles.row}>
+				<Text style={styles.rowTitle}>Gender</Text>
+				<Radiobutton
+					style={styles.checkbox}
+					toggle={() => props.changeGender('male')}
+					selected={props.gender === 'male'}
+					label='Male'
+				/>
+				<Radiobutton
+					style={styles.checkbox}
+					toggle={() => props.changeGender('female')}
+					selected={props.gender === 'female'}
+					label='Female'
+				/>
+			</View>
+
+			<View style={styles.row}>
+				<Text style={styles.rowTitle}>Age</Text>
+				<DatePicker
+					style={{
+						width: 150,
+					}}
+					date = {
+						props.age
 					}
-				}}
-				onDateChange={(age) => props.changeAge(age)}
-			/>
-		</View>
+					mode="date"
+					placeholder="Select age"
+					androidMode="spinner"
+					format="YYYY-MM-DD"
+					iconSource={2}
+					minDate="1900-01-01"
+					maxDate="2015-12-31"
+					confirmBtnText="Confirm"
+					cancelBtnText="Cancel"
+					customStyles={{
+						dateInput: {
+							width: '80%',
+							paddingLeft: 10,
+							paddingRight: 10,
+							borderWidth: 1,
+							borderColor: 'white',
+						},
+						dateText: {
+							color: 'white',
+							fontSize: baseFontSize,
+						},
+						placeholderText: {
+							color: 'white',
+							fontSize: baseFontSize,
+						}
+					}}
+					onDateChange={(age) => props.changeAge(age)}
+				/>
+			</View>
 
-		<View style={styles.row}>
-			<Text style={styles.rowTitle}>Weight</Text>
-			<TextField
+			<View style={styles.row}>
+				<Text style={styles.rowTitle}>Weight</Text>
+				<Field 
+					name="weight"
+					component={TextField}
 					placeholder="Enter weight"
 					unit={props.measurementType}
-					handleChange={(weight) => props.changeWeight(weight)}
-					text={props.weight}
 				/>
-		</View>
 
-		<View style={styles.row}>
-			<Text style={styles.rowTitle}>Height</Text>
-			<TextField
-				placeholder="Enter height"
-				unit={props.measurementType}
-				handleChange={(height) => props.changeHeight(height)}
-				text={props.height}
-			/>
+				{/* <TextField
+						placeholder="Enter weight"
+						unit={props.measurementType}
+						handleChange={(weight) => props.changeWeight(weight)}
+						text={props.weight}
+					/> */}
+			</View>
+
+			<View style={styles.row}>
+				<Text style={styles.rowTitle}>Height</Text>
+				<Field 
+					name="height"
+					component={TextField}
+					placeholder="Enter height"
+					unit={props.measurementType}
+				/>
+
+				{/* <TextField
+					placeholder="Enter height"
+					unit={props.measurementType}
+					handleChange={(height) => props.changeHeight(height)}
+					text={props.height}
+				/> */}
+			</View>
+			<Text>wddwaw</Text>
+			<View style={styles.row}>
+				<TouchableOpacity onPress={handleSubmit(submit)}>
+					<View style={styles.submitButton}>
+						<Text style={styles.buttonFont}>Calculate caloric needs</Text>
+					</View>
+				</TouchableOpacity>
+			</View>
+			<Spinner style={styles.spinner} isLoading={props.showSpinner} />
 		</View>
-		<Text>wddwaw</Text>
-		<View style={styles.row}>
-			<TouchableNativeFeedback onPress={() => props.calculateResults()}>
-				<View style={styles.submitButton}>
-					<Text style={styles.buttonFont}>Calculate caloric needs</Text>
-				</View>
-			</TouchableNativeFeedback>
-		</View>
-		<Spinner style={styles.spinner} isLoading={props.showSpinner} />
-	</View>
-)
+	)
+}
+
 
 const blue = '#126bbf'
 const baseFontSize = 20
@@ -179,12 +204,12 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state) => {
 	return {
-		gender: state.gender,
-		age: state.age,
-		weight: state.weight,
-		height: state.height,
-		showSpinner: state.showSpinner,
-		measurementType: state.measurementType,
+		gender: state.main.gender,
+		age: state.main.age,
+		weight: state.main.weight,
+		height: state.main.height,
+		showSpinner: state.main.showSpinner,
+		measurementType: state.main.measurementType,
 	}
 };
 
@@ -197,9 +222,13 @@ const mapDispatchToProps = (dispatch) => ({
 	changeMeasurementType: (type) => dispatch(changeMeasurementTypeAction(type)),
 });
 
+const FormSectionReduxForm = reduxForm({
+	form: 'formSection',
+})(FormSection)
+
 export default connect(
 	mapStateToProps,
 	mapDispatchToProps,
-)(FormSection)
+)(FormSectionReduxForm)
 
 

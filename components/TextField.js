@@ -1,24 +1,23 @@
 import React from 'react';
 import { View, Text, TextInput, StyleSheet } from 'react-native';
 
-const TextField = ({ placeholder, handleChange, text }) => (
-	<View style={styles.container}>
-		<TextInput
-			style={styles.input}
-			placeholder={placeholder}
-			keyboardType='numeric'
-			onChangeText={(text) => {
-				if (text > 0){
-					handleChange(text + ' cm')
-				} else {
-				}
-			}}
-			underlineColorAndroid='transparent'
-			placeholderTextColor='white'
-			value={text}
-		/>
-	</View>
-);
+const TextField = ({ input, meta, placeholder, unit }) => {
+
+	console.log(input.onChange)
+	
+	return (
+		<View style={styles.container}>
+			<TextInput
+				style={styles.input}
+				placeholder={placeholder}
+				keyboardType='numeric'
+				underlineColorAndroid='transparent'
+				placeholderTextColor='white'
+				onChangeText={input.onChange}
+			/>
+		</View>
+	)
+};
 
 const styles = StyleSheet.create({
 	container: {
