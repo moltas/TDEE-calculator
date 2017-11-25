@@ -1,3 +1,5 @@
+import { convertWeightToImperial, convertWeightToMetric } from "./utils/utils";
+
 
 
 export const initialState = {
@@ -33,7 +35,18 @@ const reducer = (state = initialState.form, action) => {
 			}
 		}
 		case 'CHANGE_MEASUREMENT_TYPE': {
+			//transform existing state to current measurement type
+			if (action.measurementType === "imperial") {
+				console.log('hello!')
+
+				return { ...state,
+					weight: convertWeightToImperial(state.weight),
+					measurementType: action.measurementType
+				}
+			}
+
 			return { ...state,
+				weight: convertWeightToMetric(state.weight),
 				measurementType: action.measurementType
 			}
 		}
