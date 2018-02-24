@@ -2,9 +2,10 @@
 
 
 export const convertWeightToImperial = (weight) => {
-	return (weight * 2) + ' lbs';
+	console.log("weight")
+	return (weight * 2);
 };
 
 export const convertWeightToMetric = (weight) => {
-	return (weight / 2) + ' kg';
+	return (weight / 2);
 };

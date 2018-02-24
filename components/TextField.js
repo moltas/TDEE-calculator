@@ -3,8 +3,6 @@ import { View, Text, TextInput, StyleSheet } from 'react-native';
 
 const TextField = ({ input, meta, placeholder, unit }) => {
 
-	console.log(input.onChange)
-	
 	return (
 		<View style={styles.container}>
 			<TextInput

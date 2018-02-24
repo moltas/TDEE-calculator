@@ -38,15 +38,19 @@ const submit = (values) => {
 	console.log('submitting form ', values)
 }
 
-const FormSection = (props) => {
-	const { handleSubmit } = props
-	
-	return (
+const FormSection = ({
+		handleSubmit,
+		changeGender,
+		changeAge,
+		changeMeasurementType,
+		changeWeight,
+		changeHeight,
+}) => (
 		<View style={styles.container}>
 			<View style={styles.row}>
 				<TabGroup
 					tabItems={measurementTypes}
-					toggle={(tab) => props.changeMeasurementType(tab)}
+					toggle={(tab) => changeMeasurementType(tab)}
 					selected={props.measurementType}
 				/>
 			</View>
@@ -59,13 +63,13 @@ const FormSection = (props) => {
 				<Text style={styles.rowTitle}>Gender</Text>
 				<Radiobutton
 					style={styles.checkbox}
-					toggle={() => props.changeGender('male')}
+					toggle={() => changeGender('male')}
 					selected={props.gender === 'male'}
 					label='Male'
 				/>
 				<Radiobutton
 					style={styles.checkbox}
-					toggle={() => props.changeGender('female')}
+					toggle={() => changeGender('female')}
 					selected={props.gender === 'female'}
 					label='Female'
 				/>
@@ -91,7 +95,7 @@ const FormSection = (props) => {
 					cancelBtnText="Cancel"
 					customStyles={{
 						dateInput: {
-							width: '80%',
+							width: '100%',
 							paddingLeft: 10,
 							paddingRight: 10,
 							borderWidth: 1,
@@ -106,7 +110,7 @@ const FormSection = (props) => {
 							fontSize: baseFontSize,
 						}
 					}}
-					onDateChange={(age) => props.changeAge(age)}
+					onDateChange={(age) => changeAge(age)}
 				/>
 			</View>
 
@@ -117,14 +121,8 @@ const FormSection = (props) => {
 					component={TextField}
 					placeholder="Enter weight"
 					unit={props.measurementType}
+					onChange={(event) => changeWeight(event.value)}
 				/>
-
-				{/* <TextField
-						placeholder="Enter weight"
-						unit={props.measurementType}
-						handleChange={(weight) => props.changeWeight(weight)}
-						text={props.weight}
-					/> */}
 			</View>
 
 			<View style={styles.row}>
@@ -134,16 +132,9 @@ const FormSection = (props) => {
 					component={TextField}
 					placeholder="Enter height"
 					unit={props.measurementType}
+					onChange={(event) => changeHeight(height)}
 				/>
-
-				{/* <TextField
-					placeholder="Enter height"
-					unit={props.measurementType}
-					handleChange={(height) => props.changeHeight(height)}
-					text={props.height}
-				/> */}
 			</View>
-			<Text>wddwaw</Text>
 			<View style={styles.row}>
 				<TouchableOpacity onPress={handleSubmit(submit)}>
 					<View style={styles.submitButton}>
@@ -154,8 +145,6 @@ const FormSection = (props) => {
 			<Spinner style={styles.spinner} isLoading={props.showSpinner} />
 		</View>
 	)
-}
-
 
 const blue = '#126bbf'
 const baseFontSize = 20
@@ -202,16 +191,14 @@ const styles = StyleSheet.create({
 	},
 });
 
-const mapStateToProps = (state) => {
-	return {
-		gender: state.main.gender,
-		age: state.main.age,
-		weight: state.main.weight,
-		height: state.main.height,
-		showSpinner: state.main.showSpinner,
-		measurementType: state.main.measurementType,
-	}
-};
+const mapStateToProps = (state) => ({
+	gender: state.main.gender,
+	age: state.main.age,
+	weight: state.main.weight,
+	height: state.main.height,
+	showSpinner: state.main.showSpinner,
+	measurementType: state.main.measurementType,
+});
 
 const mapDispatchToProps = (dispatch) => ({
 	changeGender: (gender) => dispatch(changeGenderAction(gender)),

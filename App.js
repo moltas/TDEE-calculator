@@ -13,6 +13,7 @@ import { Provider } from 'react-redux';
 import { createStore, applyMiddleware, compose, combineReducers } from 'redux';
 import reduxImmutableStateInvariant from 'redux-immutable-state-invariant';
 import { reducer as formReducer } from 'redux-form';
+import devToolsEnhancer from 'remote-redux-devtools';
 
 import mainReducer from './reducer.js';
 import { initialState } from './reducer.js';
@@ -24,7 +25,7 @@ const reducers = {
 }
 
 const reducer = combineReducers(reducers)
-const store = createStore(reducer, initialState);
+const store = createStore(reducer, initialState, devToolsEnhancer());
 
 export default class App extends React.Component {
 	render() {

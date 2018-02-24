@@ -5,16 +5,16 @@ import { convertWeightToImperial, convertWeightToMetric } from "./utils/utils";
 export const initialState = {
 	main: {
 		gender: 'male',
-		age: '19',
-		weight: '100',
-		height: '100',
+		age: '',
+		weight: '',
+		height: '',
 		showSpinner: false,
 		formSubmitted: false,
 		measurementType: 'metric',
 	}
 };
 
-const reducer = (state = initialState.main, action) => {
+const reducer = (state = initialState, action) => {
 	switch (action.type) {
 		case 'CHANGE_GENDER': {
 			return { ...state,
@@ -40,13 +40,13 @@ const reducer = (state = initialState.main, action) => {
 			//transform existing state to current measurement type
 			if (action.measurementType === "imperial") {
 				return { ...state,
-					weight: convertWeightToImperial(state.weight),
+					weight: convertWeightToImperial(state.form.values.weight),
 					measurementType: action.measurementType
 				}
 			}
 
 			return { ...state,
-				weight: convertWeightToMetric(state.weight),
+				weight: convertWeightToMetric(state.form.values.weight),
 				measurementType: action.measurementType
 			}
 		}
